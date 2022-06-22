@@ -15,6 +15,7 @@
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>2.9.2.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
+    <codehaus-mojo-jaxws-maven-plugin.version>2.6</codehaus-mojo-jaxws-maven-plugin.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -112,6 +113,29 @@
             <maven.home>${maven.home}</maven.home>
           </systemPropertyVariables>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jaxws-maven-plugin</artifactId>
+        <version>${codehaus-mojo-jaxws-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>wsimport</goal>
+            </goals>
+            <configuration>
+              <wsdlFiles>
+                <wsdlFile>${project.basedir}/src/main/resources/service.wsdl</wsdlFile>
+              </wsdlFiles>
+              <wsdlLocation>https://www.dataaccess.com/webservicesserver/numberconversion.wso?WSDL</wsdlLocation>
+              <keep>true</keep>
+              <genJWS>false</genJWS>
+              <extension>true</extension>
+              <packageName>org.example.adapter.soap.generated</packageName>
+              <sourceDestDir>src/main/java</sourceDestDir>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
